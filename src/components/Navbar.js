@@ -7,8 +7,9 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import {Button} from "@material-ui/core";
 import EmojiSymbolsIcon from '@material-ui/icons/EmojiSymbols';
+import {NavLink} from "react-router-dom";
+import {Divider} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,8 +19,16 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        flexGrow: 1,
+        color: "#fff",
+        textDecoration: "none",
+        marginRight: theme.spacing(5)
     },
+    link: {
+        color: '#fff',
+        fontSize: 18,
+        textDecoration: "none",
+        padding: 10
+    }
 }));
 
 const Navbar = () => {
@@ -35,6 +44,7 @@ const Navbar = () => {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
     return (
         <div className={classes.root}>
             <AppBar position="static">
@@ -42,11 +52,15 @@ const Navbar = () => {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <EmojiSymbolsIcon/>
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
-                        Strapi Blog
-                    </Typography>
-                    <Button color="inherit">Signup</Button>
-                    <Button color="inherit">Login</Button>
+                    <NavLink className={classes.title} to="/">
+                        <Typography variant="h6">Strapi Blog</Typography>
+                    </NavLink>
+                    <NavLink className={classes.title} to="/posts">
+                        <Typography variant="h6">Posts</Typography>
+                    </NavLink>
+                    <Typography className={classes.root}/>
+                    <NavLink className={classes.link} to="/signup">Signup</NavLink>
+                    <NavLink className={classes.link} to="/login">Login</NavLink>
                     {auth && (
                         <div>
                             <IconButton
@@ -74,6 +88,7 @@ const Navbar = () => {
                                 onClose={handleClose}
                             >
                                 <MenuItem onClick={handleClose}>My Profile</MenuItem>
+                                <Divider/>
                                 <MenuItem onClick={handleClose}>Logout</MenuItem>
                             </Menu>
                         </div>

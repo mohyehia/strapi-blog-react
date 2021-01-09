@@ -5,19 +5,21 @@ import Navbar from "./components/Navbar";
 import SignupPage from "./pages/SignupPage";
 import LoginPage from "./pages/LoginPage";
 import PostsPage from "./pages/PostsPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
     return (
         <BrowserRouter>
             <Navbar/>
-            <Switch>
-                <div className="container mt-4">
+            <div className="container mt-4">
+                <Switch>
                     <Route path="/" component={Home} exact/>
                     <Route path="/signup" component={SignupPage} exact/>
                     <Route path="/login" component={LoginPage} exact/>
                     <Route path="/posts" component={PostsPage} exact/>
-                </div>
-            </Switch>
+                    <Route path="/*" component={NotFoundPage} exact/>
+                </Switch>
+            </div>
         </BrowserRouter>
     );
 }

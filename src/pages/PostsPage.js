@@ -123,4 +123,5 @@ class PostsPage extends Component {
     }
 }
 
-export default PostsPage;
+const Posts = PostsPage;
+export {Posts};

@@ -35,4 +35,5 @@ class LoginPage extends Component {
     }
 }
 
-export default LoginPage;
+const Login = LoginPage;
+export {Login};

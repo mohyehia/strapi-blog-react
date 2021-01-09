@@ -1,7 +1,7 @@
 import React, {Component, Fragment} from 'react';
 import {Link} from "react-router-dom";
 
-class Home extends Component {
+class HomePage extends Component {
     render() {
         return (
             <Fragment>
@@ -72,4 +72,5 @@ class Home extends Component {
     }
 }
 
-export default Home;
+const Home = HomePage;
+export {Home};

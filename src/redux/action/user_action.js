@@ -14,9 +14,15 @@ export const signup = (values) => {
                 })
             })
             .catch(error => {
+                let err;
+                if(error.message.data && error.message.data.message){
+                    err = error.response.data.message[0].messages[0].message;
+                }else{
+                    err = 'Server error, Please try again!';
+                }
                 dispatch({
                     type: SIGNUP_FAILED,
-                    payload: error.response.data.message[0].messages[0].message
+                    payload: err
                 })
             });
     }

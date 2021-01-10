@@ -22,25 +22,26 @@ const validationSchema = Yup.object({
         .required('Confirm Password is required')
 });
 
+// initialize the toast to be rendered for success or error
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+    }
+});
+
 class SignupPage extends Component {
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState, snapshot) {
         const {created, error, resetCreatedFlag, resetError} = this.props;
         if (error && this.actions) {
-            resetCreatedFlag();
             this.actions.setSubmitting(false);
+            resetCreatedFlag();
         }
-        // initialize the toast to be rendered for success or error
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer)
-                toast.addEventListener('mouseleave', Swal.resumeTimer)
-            }
-        })
         if (created) {
             resetError();
             // redirect user to login page if his account created successfully

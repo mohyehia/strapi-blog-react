@@ -53,7 +53,7 @@ class SignupPage extends Component {
                 Toast.close();
             });
         } else if (error) {
-            resetCreatedFlag()
+            resetCreatedFlag();
             Toast.fire({
                 icon: 'error',
                 title: error

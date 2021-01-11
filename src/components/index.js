@@ -1,1 +1,3 @@
-export * from './Navbar';
+export * from './NavbarComponent';
+export * from './ProtectedRouteComponent';
+export * from './PublicRouteComponent';

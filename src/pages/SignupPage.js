@@ -43,7 +43,6 @@ class SignupPage extends Component {
             resetCreatedFlag();
         }
         if (created) {
-            resetError();
             // redirect user to login page if his account created successfully
             this.props.history.push('/login');
             Toast.fire({
@@ -60,6 +59,7 @@ class SignupPage extends Component {
             }).then(() => {
                 Toast.close();
             });
+            resetError();
         }
     }
 

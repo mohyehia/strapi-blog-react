@@ -59,7 +59,7 @@ export const login = (values) => {
             .catch(error => {
                 console.log('An error occurred:', error.response);
                 let err;
-                if (error.response && error.response.data) {
+                if (error.response && error.response.data && error.response.data.message[0]) {
                     err = error.response.data.message[0].messages[0].message;
                 } else {
                     err = 'Server error, Please try again!';

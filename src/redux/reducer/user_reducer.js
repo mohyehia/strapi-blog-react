@@ -76,7 +76,9 @@ const userReducer = (state = INITIAL_STATE, action) => {
             }
         case RESET_ERROR:
             return {
-                INITIAL_STATE
+                ...state,
+                attempting: false,
+                error: ''
             }
         default:
             return state;

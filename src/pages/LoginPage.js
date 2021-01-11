@@ -32,8 +32,8 @@ const Toast = Swal.mixin({
 class LoginPage extends Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {isLoggedIn, error, message, resetError} = this.props;
-        if(error && this.actions){
+        const {isLoggedIn, error, resetError} = this.props;
+        if (error && this.actions) {
             this.actions.setSubmitting(false);
             Toast.fire({
                 icon: 'error',
@@ -41,16 +41,10 @@ class LoginPage extends Component {
             }).then(() => {
                 Toast.close();
             });
-        }
-        if(isLoggedIn){
             resetError();
+        }
+        if (isLoggedIn) {
             this.props.history.push('/');
-            Toast.fire({
-                icon: 'success',
-                title: message
-            }).then(() => {
-                Toast.close();
-            });
         }
     }
 

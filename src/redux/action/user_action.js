@@ -77,7 +77,6 @@ export const checkAuthentication = () => {
     return function (dispatch) {
         const user = localStorage.getItem(USER_KEY);
         const token = localStorage.getItem(TOKEN_KEY);
-        console.log('user =>' + user);
         if (user === null || user === undefined || token === null || token === undefined) {
             return dispatch({
                 type: LOGIN_FAILED

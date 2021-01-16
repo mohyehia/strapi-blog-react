@@ -18,7 +18,7 @@ const NavbarComponent = (props) => {
                     <li className="nav-item dropdown">
                         <Link to="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button"
                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Welcome, {profile.firstName}{' '}{profile.lastName}
+                            Welcome, {profile.firstName}
                         </Link>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
                             <NavLink className="dropdown-item" to="/profile">My Profile</NavLink>

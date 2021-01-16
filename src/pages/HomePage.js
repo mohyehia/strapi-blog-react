@@ -14,7 +14,7 @@ class HomePage extends Component {
                         <p>This is a template that is great for small businesses. It doesn't have too much fancy flare
                             to it, but it makes a great use of the standard Bootstrap core components. Feel free to use
                             this template for any project you want!</p>
-                        <Link className="btn btn-primary" to="/login">Get Started!</Link>
+                        <Link className="btn btn-info" to="/login">Get Started!</Link>
                     </div>
                 </div>
 
@@ -36,7 +36,7 @@ class HomePage extends Component {
                                     quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
                             </div>
                             <div className="card-footer">
-                                <Link to="#" className="btn btn-primary btn-sm">More Info</Link>
+                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ class HomePage extends Component {
                                     non in id dolore voluptates quos eligendi labore.</p>
                             </div>
                             <div className="card-footer">
-                                <Link to="#" className="btn btn-primary btn-sm">More Info</Link>
+                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@ class HomePage extends Component {
                                     quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
                             </div>
                             <div className="card-footer">
-                                <Link to="#" className="btn btn-primary btn-sm">More Info</Link>
+                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
                             </div>
                         </div>
                     </div>

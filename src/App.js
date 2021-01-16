@@ -1,6 +1,6 @@
 import './App.css';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
-import {Home, Login, NotFoundPage, Posts, Profile, Signup} from "./pages/index";
+import {AddPost, Home, Login, NotFoundPage, Posts, Profile, Signup} from "./pages/index";
 import {Provider} from "react-redux";
 import store from "./redux/store";
 import {Navbar, ProtectedRoute, PublicRoute} from "./components";
@@ -17,6 +17,7 @@ function App() {
                     <Switch>
                         <ProtectedRoute path="/" component={Home} exact/>
                         <ProtectedRoute path="/posts" component={Posts} exact/>
+                        <ProtectedRoute path="/posts/add" component={AddPost} exact/>
                         <ProtectedRoute path="/profile" component={Profile} exact/>
                         <PublicRoute path="/signup" component={Signup} exact/>
                         <PublicRoute path="/login" component={Login} exact/>

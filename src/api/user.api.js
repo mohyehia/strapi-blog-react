@@ -11,3 +11,7 @@ export const userLoginApi = (values) =>{
         password: values.password
     });
 }
+
+export const updateUserProfileApi = (values) =>{
+    return axios.put(`users/${values.id}`, values);
+}

@@ -11,9 +11,7 @@ const ProfileImageComponent = (props) => {
                         <h4>{props.username}</h4>
                         <p className="text-secondary mb-1">{props.job}</p>
                         <p className="text-muted font-size-sm">{props.address}</p>
-                        <button className="btn btn-info">Follow</button>
-                        {' '}
-                        <button className="btn btn-outline-info">Message</button>
+                        <button className="btn btn-outline-info">Update Profile Image</button>
                     </div>
                 </div>
             </div>

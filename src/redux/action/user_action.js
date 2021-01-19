@@ -5,9 +5,12 @@ import {
     SIGNUP_FAILED,
     SIGNUP_REQUEST,
     SIGNUP_SUCCESS,
+    UPDATE_PROFILE_FAILED,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
     USER_LOGOUT
 } from "./types";
-import {userLoginApi, userRegistrationApi} from "../../api/user.api";
+import {updateUserProfileApi, userLoginApi, userRegistrationApi} from "../../api/user.api";
 import SetAuthHeader from "../../api/auth_header";
 
 const USER_KEY = "userInfo";
@@ -72,6 +75,32 @@ export const login = (values) => {
     }
 }
 
+export const updateUserProfile = (values) => {
+    return async function (dispatch) {
+        dispatch({
+            type: UPDATE_PROFILE_REQUEST
+        });
+        await updateUserProfileApi(values)
+            .then(response => {
+                const userProfile = JSON.stringify(response.data);
+                console.log(response);
+                dispatch({
+                    type: UPDATE_PROFILE_SUCCESS,
+                    payload: userProfile
+                });
+                localStorage.removeItem(USER_KEY);
+                localStorage.setItem(USER_KEY, userProfile);
+            })
+            .catch(err => {
+                console.log(err);
+                dispatch({
+                    type: UPDATE_PROFILE_FAILED,
+                    payload: err
+                });
+            });
+    }
+}
+
 
 export const checkAuthentication = () => {
     return function (dispatch) {
@@ -90,7 +119,7 @@ export const checkAuthentication = () => {
     }
 }
 
-export const logout = () =>{
+export const logout = () => {
     localStorage.clear();
     return {
         type: USER_LOGOUT

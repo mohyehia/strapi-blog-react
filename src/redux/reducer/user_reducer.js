@@ -5,12 +5,13 @@ import {
     RESET_ERROR,
     SIGNUP_FAILED,
     SIGNUP_REQUEST,
-    SIGNUP_SUCCESS, USER_LOGOUT
+    SIGNUP_SUCCESS, UPDATE_PROFILE_FAILED, UPDATE_PROFILE_REQUEST, UPDATE_PROFILE_SUCCESS, USER_LOGOUT
 } from "../action/types";
 
 const INITIAL_STATE = {
     attempting: false,
     created: false,
+    updated: false,
     profile: null,
     isLoggedIn: false,
     message: '',
@@ -79,6 +80,25 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 attempting: false,
                 error: ''
+            }
+        case UPDATE_PROFILE_REQUEST:
+            return {
+                ...state,
+                attempting: true
+            }
+        case UPDATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                attempting: false,
+                updated: true,
+                profile: action.payload
+            }
+        case UPDATE_PROFILE_FAILED:
+            return {
+                ...state,
+                attempting: false,
+                updated: false,
+                error: action.payload
             }
         default:
             return state;

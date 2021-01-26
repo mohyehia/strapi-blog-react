@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 import * as Yup from "yup";
 import {addPost} from "../redux/action/post_action";
 import Swal from "sweetalert2";
+import {retrieveCategories} from "../redux/action/category_action";
 
 const initialValues = {title: '', content: '', category: '', photo: ''};
 const validationSchema = Yup.object({
@@ -31,6 +32,11 @@ const Toast = Swal.mixin({
 });
 
 class AddPostPage extends Component {
+
+    componentDidMount() {
+        this.props.retrieveCategories();
+    }
+
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {created, error, resetError} = this.props;
         if (error && this.actions) {
@@ -43,7 +49,7 @@ class AddPostPage extends Component {
             });
             resetError();
         }
-        if(created){
+        if (created) {
             // redirect user to posts page if post created successfully!
             this.props.history.push('/posts');
             Toast.fire({
@@ -57,21 +63,13 @@ class AddPostPage extends Component {
 
     onsubmit = (values, actions) => {
         const formData = new FormData();
-        const slug = values['title'].trim().toLowerCase().replace(/\s+/g, '-');
-        values.slug = slug;
-        formData.append('title', values['title']);
-        formData.append('slug', slug);
-        formData.append('content', values['content']);
-        formData.append('category', values['category']);
-        formData.append('files.photo', values['photo']);
-        values['photo'] = {};
-        formData.append('data', JSON.stringify(values));
-        console.log(JSON.stringify(values))
+        Object.keys(values).forEach(key => formData.append(key, values[key]));
         this.props.addPost(formData);
         this.actions = actions;
     }
 
     render() {
+        const {categories} = this.props;
         return (
             <div className="row justify-content-center mt-5">
                 <div className="col-lg-6 col-md-8 col-12">
@@ -102,21 +100,29 @@ class AddPostPage extends Component {
                                                     <ErrorMessage name="content" component="span"
                                                                   className="text-danger"/>
                                                 </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="category">Category</label>
-                                                    <Field as="select" id="category" name="category"
-                                                           className={errors.category && touched.category ? 'form-control is-invalid' : 'form-control'}>
-                                                        <option value="">Select Category</option>
-                                                        <option value="600c12cc4fe3526158b98006">Red</option>
-                                                        <option value="green">Green</option>
-                                                        <option value="blue">Blue</option>
-                                                    </Field>
-                                                    <ErrorMessage name="category" component="span"
-                                                                  className="text-danger"/>
-                                                </div>
+                                                {
+                                                    categories && (
+                                                        <div className="form-group">
+                                                            <label htmlFor="category">Category</label>
+                                                            <Field as="select" id="category" name="category"
+                                                                   className={errors.category && touched.category ? 'form-control is-invalid' : 'form-control'}>
+                                                                <option value="">Select Category</option>
+                                                                {
+                                                                    categories.map(category => (
+                                                                        <option key={category.id}
+                                                                                value={category.id}>{category.name}</option>
+                                                                    ))
+                                                                }
+                                                            </Field>
+                                                            <ErrorMessage name="category" component="span"
+                                                                          className="text-danger"/>
+                                                        </div>
+                                                    )
+                                                }
                                                 <div className="form-group">
                                                     <label htmlFor="photo">Photo</label>
-                                                    <input id="photo" name="photo" type="file" className="form-control" onChange={(e) => setFieldValue('photo', e.target.files[0])} />
+                                                    <input id="photo" name="photo" type="file" className="form-control"
+                                                           onChange={(e) => setFieldValue('photo', e.target.files[0])}/>
                                                     <ErrorMessage name="photo" component="span"
                                                                   className="text-danger"/>
                                                 </div>
@@ -140,17 +146,20 @@ class AddPostPage extends Component {
     }
 }
 
-const mapStateToProps = ({post}) => {
+const mapStateToProps = ({post, category}) => {
     return {
         attempting: post.attempting,
         created: post.created,
-        error: post.error
+        error: post.error,
+        fetchRequest: category.attempting,
+        categories: category.categories
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         addPost: (values) => dispatch(addPost(values)),
+        retrieveCategories: () => dispatch(retrieveCategories()),
         resetError: () => dispatch({
             type: RESET_ERROR
         })

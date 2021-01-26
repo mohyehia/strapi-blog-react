@@ -7,11 +7,10 @@ import {connect} from "react-redux";
 import Swal from 'sweetalert2';
 import {RESET_CREATED_FLAG, RESET_ERROR} from "../redux/action/types";
 
-const initialValues = {firstName: '', lastName: '', username: '', email: '', password: '', confirmPassword: ''};
+const initialValues = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 const validationSchema = Yup.object({
     firstName: Yup.string().required('First name is required!'),
     lastName: Yup.string().required('Last name is required!'),
-    username: Yup.string().required('Username is required!'),
     email: Yup.string().email('Invalid email address!')
         .required('Email address is required!'),
     password: Yup.string()
@@ -97,14 +96,6 @@ class SignupPage extends Component {
                                                            className={errors.lastName && touched.lastName ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Last Name"/>
                                                     <ErrorMessage name="lastName" component="span"
-                                                                  className="text-danger"/>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label htmlFor="username">Username</label>
-                                                    <Field type="text" id="username" name="username"
-                                                           className={errors.username && touched.username ? 'form-control is-invalid' : 'form-control'}
-                                                           placeholder="Username"/>
-                                                    <ErrorMessage name="username" component="span"
                                                                   className="text-danger"/>
                                                 </div>
                                                 <div className="form-group">

@@ -1,15 +1,11 @@
 import axios from 'axios';
 
 export const userRegistrationApi = (values) => {
-    return axios.post('auth/local/register', values);
+    return axios.post('users/signup', values);
 }
 
 export const userLoginApi = (values) =>{
-
-    return axios.post('auth/local', {
-        identifier: values.email,
-        password: values.password
-    });
+    return axios.post('users/login', values);
 }
 
 export const updateUserProfileApi = (values) =>{

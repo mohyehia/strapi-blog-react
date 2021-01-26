@@ -29,15 +29,9 @@ export const signup = (values) => {
                 })
             })
             .catch(error => {
-                let err;
-                if (error.response && error.response.data) {
-                    err = error.response.data.message[0].messages[0].message;
-                } else {
-                    err = 'Server error, Please try again!';
-                }
                 dispatch({
                     type: SIGNUP_FAILED,
-                    payload: err
+                    payload: error.response.data.error
                 })
             });
     }
@@ -57,19 +51,12 @@ export const login = (values) => {
                     payload: response.data.user
                 });
                 localStorage.setItem(USER_KEY, userProfile);
-                localStorage.setItem(TOKEN_KEY, response.data.jwt);
+                localStorage.setItem(TOKEN_KEY, response.data.token);
             })
             .catch(error => {
-                console.log('An error occurred:', error.response);
-                let err;
-                if (error.response && error.response.data && error.response.data.message[0]) {
-                    err = error.response.data.message[0].messages[0].message;
-                } else {
-                    err = 'Server error, Please try again!';
-                }
                 dispatch({
                     type: LOGIN_FAILED,
-                    payload: err
+                    payload: error.response.data.message
                 })
             });
     }

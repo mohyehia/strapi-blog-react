@@ -69,8 +69,8 @@ export const updateUserProfile = (values) => {
         });
         await updateUserProfileApi(values)
             .then(response => {
-                const userProfile = JSON.stringify(response.data);
                 console.log(response);
+                const userProfile = JSON.stringify(response.data.user);
                 dispatch({
                     type: UPDATE_PROFILE_SUCCESS,
                     payload: userProfile

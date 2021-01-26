@@ -163,7 +163,7 @@ class ProfileInfoComponent extends Component {
                                             <div className="col-md-12">
                                                 <div className="form-group">
                                                     <button className="btn btn-info btn-block"
-                                                            disabled={!(dirty && isValid)} type="submit">Update Profile
+                                                            disabled={!(dirty && isValid) || this.props.updated} type="submit">Update Profile
                                                     </button>
                                                 </div>
                                             </div>

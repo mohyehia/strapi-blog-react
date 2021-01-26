@@ -9,5 +9,5 @@ export const userLoginApi = (values) =>{
 }
 
 export const updateUserProfileApi = (values) =>{
-    return axios.put(`users/${values.id}`, values);
+    return axios.put('users/update', values);
 }

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {RESET_ERROR} from "../redux/action/types";
+import {RESET_CREATED_FLAG, RESET_ERROR} from "../redux/action/types";
 import {connect} from "react-redux";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {Link} from "react-router-dom";
@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import {addPost} from "../redux/action/post_action";
 import Swal from "sweetalert2";
 import {retrieveCategories} from "../redux/action/category_action";
+import {Spinner} from "../components";
 
 const initialValues = {title: '', content: '', category: '', photo: ''};
 const validationSchema = Yup.object({
@@ -21,7 +22,7 @@ const validationSchema = Yup.object({
 // initialize the toast to be rendered for success or error
 const Toast = Swal.mixin({
     toast: true,
-    position: 'top',
+    position: 'top-end',
     showConfirmButton: false,
     timer: 2000,
     timerProgressBar: true,
@@ -38,7 +39,7 @@ class AddPostPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        const {created, error, resetError} = this.props;
+        const {created, error, resetError, resetCreatedFlag} = this.props;
         if (error && this.actions) {
             this.actions.setSubmitting(false);
             Toast.fire({
@@ -57,6 +58,7 @@ class AddPostPage extends Component {
                 title: 'New post has been created successfully!'
             }).then(() => {
                 Toast.close();
+                resetCreatedFlag();
             });
         }
     }
@@ -69,7 +71,12 @@ class AddPostPage extends Component {
     }
 
     render() {
-        const {categories} = this.props;
+        const {categories, attempting} = this.props;
+        if (attempting) {
+            return (
+                <Spinner />
+            );
+        }
         return (
             <div className="row justify-content-center mt-5">
                 <div className="col-lg-6 col-md-8 col-12">
@@ -162,6 +169,9 @@ const mapDispatchToProps = dispatch => {
         retrieveCategories: () => dispatch(retrieveCategories()),
         resetError: () => dispatch({
             type: RESET_ERROR
+        }),
+        resetCreatedFlag: () => dispatch({
+            type: RESET_CREATED_FLAG
         })
     }
 }

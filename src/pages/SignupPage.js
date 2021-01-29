@@ -6,6 +6,7 @@ import {signup} from "../redux/action/user_action";
 import {connect} from "react-redux";
 import Swal from 'sweetalert2';
 import {RESET_CREATED_FLAG, RESET_ERROR} from "../redux/action/types";
+import {Spinner} from "../components";
 
 const initialValues = {firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 const validationSchema = Yup.object({
@@ -24,7 +25,7 @@ const validationSchema = Yup.object({
 // initialize the toast to be rendered for success or error
 const Toast = Swal.mixin({
     toast: true,
-    position: 'top',
+    position: 'top-end',
     showConfirmButton: false,
     timer: 3000,
     timerProgressBar: true,
@@ -68,6 +69,12 @@ class SignupPage extends Component {
     }
 
     render() {
+        const {attempting} = this.props;
+        if (attempting) {
+            return (
+                <Spinner />
+            );
+        }
         return (
             <div className="row justify-content-center mt-5">
                 <div className="col-lg-6 col-md-8 col-12">

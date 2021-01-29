@@ -1,4 +1,4 @@
-import {ADD_POST_FAILED, ADD_POST_REQUEST, ADD_POST_SUCCESS} from "../action/types";
+import {ADD_POST_FAILED, ADD_POST_REQUEST, ADD_POST_SUCCESS, RESET_CREATED_FLAG} from "../action/types";
 
 const INITIAL_STATE = {
     attempting: false,
@@ -28,6 +28,12 @@ const postReducer = (state = INITIAL_STATE, action) =>{
                 attempting: false,
                 created: false,
                 error: action.payload
+            }
+        case RESET_CREATED_FLAG:
+            return {
+                ...state,
+                attempting: false,
+                created: false
             }
         default:
             return state;

@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {updateUserProfile} from "../redux/action/user_action";
 import {RESET_ERROR} from "../redux/action/types";
 import Swal from "sweetalert2";
+import {Spinner} from "./SpinnerComponent";
 
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 const validationSchema = Yup.object({
@@ -64,7 +65,7 @@ class ProfileInfoComponent extends Component {
     }
 
     render() {
-        const {profile} = this.props;
+        const {profile, attempting} = this.props;
         const initialValues = {
             id: profile.id,
             firstName: profile.firstName,
@@ -74,6 +75,11 @@ class ProfileInfoComponent extends Component {
             job: profile.job ? profile.job : '',
             address: profile.address ? profile.address : ''
         };
+        if(attempting){
+            return (
+                <Spinner />
+            );
+        }
         return (
             <div className="card mb-3">
                 <div className="card-body">

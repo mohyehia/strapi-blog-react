@@ -4,13 +4,15 @@ import PostComponent from "../components/PostComponent";
 import {connect} from "react-redux";
 import {retrieveCategories} from "../redux/action/category_action";
 import {Spinner} from "../components";
+import {retrieveUserPosts} from "../redux/action/post_action";
 
 class PostsPage extends Component {
     componentDidMount() {
         this.props.retrieveCategories();
+        this.props.retrievePosts();
     }
     render() {
-        const {categories, fetchRequest} = this.props;
+        const {categories, fetchRequest, userPosts, fetchingPosts} = this.props;
         return (
             <div className="row">
 
@@ -18,14 +20,22 @@ class PostsPage extends Component {
 
                     <h1 className="my-4">Latest Posts</h1>
 
-                    <PostComponent/>
-                    <PostComponent/>
-
-                    <ul className="pagination justify-content-center mb-4 mt-5">
-                        <li className="page-item"><a className="page-link" href="#">1</a></li>
-                        <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                        <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    </ul>
+                    {
+                        fetchingPosts ? (<Spinner />) : (
+                                <React.Fragment>
+                                    {
+                                        userPosts && userPosts.map(post =>(
+                                            <PostComponent key={post.id} post={post} />
+                                        ))
+                                    }
+                                    <ul className="pagination justify-content-center mb-4 mt-5">
+                                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                        <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                        <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                    </ul>
+                                </React.Fragment>
+                        )
+                    }
 
                 </div>
 
@@ -70,15 +80,18 @@ class PostsPage extends Component {
     }
 }
 
-const mapStateToProps = ({category}) =>{
+const mapStateToProps = ({category, post}) =>{
     return {
         fetchRequest: category.attempting,
-        categories: category.categories
+        categories: category.categories,
+        fetchingPosts: post.fetchingPosts,
+        userPosts: post.posts
     }
 }
 const mapDispatchToProps = dispatch =>{
     return {
-        retrieveCategories: () => dispatch(retrieveCategories())
+        retrieveCategories: () => dispatch(retrieveCategories()),
+        retrievePosts: () => dispatch(retrieveUserPosts())
     }
 }
 const Posts = connect(mapStateToProps, mapDispatchToProps)(PostsPage);

@@ -1,9 +1,17 @@
-import {ADD_POST_FAILED, ADD_POST_REQUEST, ADD_POST_SUCCESS, RESET_CREATED_FLAG} from "../action/types";
+import {
+    ADD_POST_FAILED,
+    ADD_POST_REQUEST,
+    ADD_POST_SUCCESS,
+    RESET_CREATED_FLAG, RETRIEVE_POSTS_FAILED,
+    RETRIEVE_POSTS_REQUEST, RETRIEVE_POSTS_SUCCESS
+} from "../action/types";
 
 const INITIAL_STATE = {
     attempting: false,
     created: false,
     post: null,
+    posts: [],
+    fetchingPosts: false,
     message: '',
     error: ''
 }
@@ -27,6 +35,23 @@ const postReducer = (state = INITIAL_STATE, action) =>{
                 ...state,
                 attempting: false,
                 created: false,
+                error: action.payload
+            }
+        case RETRIEVE_POSTS_REQUEST:
+            return {
+                ...state,
+                fetchingPosts: true
+            }
+        case RETRIEVE_POSTS_SUCCESS:
+            return {
+                ...state,
+                fetchingPosts: false,
+                posts: action.payload
+            }
+        case RETRIEVE_POSTS_FAILED:
+            return {
+                ...state,
+                fetchingPosts: false,
                 error: action.payload
             }
         case RESET_CREATED_FLAG:

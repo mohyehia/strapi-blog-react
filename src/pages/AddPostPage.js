@@ -101,7 +101,7 @@ class AddPostPage extends Component {
                                                 </div>
                                                 <div className="form-group">
                                                     <label htmlFor="content">Content</label>
-                                                    <Field as="textarea" id="content" name="content" rows="4"
+                                                    <Field as="textarea" id="content" name="content" rows="6"
                                                            className={errors.content && touched.content ? 'form-control is-invalid' : 'form-control'}
                                                            placeholder="Content"/>
                                                     <ErrorMessage name="content" component="span"

@@ -16,7 +16,7 @@ class PostsPage extends Component {
         return (
             <div className="row">
 
-                <div className="col-md-8">
+                <div className="col-md-9">
 
                     <h1 className="my-4">Latest Posts</h1>
 
@@ -39,7 +39,7 @@ class PostsPage extends Component {
 
                 </div>
 
-                <div className="col-md-4">
+                <div className="col-md-3">
 
                     <Link to="/posts/add" className="btn btn-block btn-outline-info mt-4">Add New Post</Link>
 
@@ -51,10 +51,11 @@ class PostsPage extends Component {
                                     <div className="row">
                                         {
                                             categories.map(category => (
-                                                <div className="col-md-6 mb-2">
-                                                    <li className="list-unstyled text-center">
+                                                <div className="col-md-12 mb-2">
+                                                    <li className="list-unstyled">
                                                         <Link to={`category/${category.id}`}>{category.name}</Link>
                                                     </li>
+                                                    <hr className="mb-2 mt-0"/>
                                                 </div>
                                             ))
                                         }

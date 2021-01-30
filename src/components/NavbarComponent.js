@@ -13,7 +13,7 @@ const NavbarComponent = (props) => {
                         <NavLink className="nav-link" exact to="/">Home</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/posts">Posts</NavLink>
+                        <NavLink className="nav-link" to="/posts">My Posts</NavLink>
                     </li>
                     <li className="nav-item dropdown">
                         <Link to="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button"

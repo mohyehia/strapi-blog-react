@@ -15,7 +15,7 @@ class PostComponent extends Component {
                     <Link to="#" className="btn btn-info">Read More &rarr;</Link>
                 </div>
                 <div className="card-footer text-muted">
-                    Posted on January 1, 2020 by
+                    Posted on January 1, 2020 by {' '}
                     <Link to="#">Start Bootstrap</Link>
                 </div>
             </div>

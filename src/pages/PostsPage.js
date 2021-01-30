@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import PostComponent from "../components/PostComponent";
+import {connect} from "react-redux";
+import {retrieveCategories} from "../redux/action/category_action";
+import {Spinner} from "../components";
 
 class PostsPage extends Component {
+    componentDidMount() {
+        this.props.retrieveCategories();
+    }
     render() {
+        const {categories, fetchRequest} = this.props;
         return (
             <div className="row">
 
@@ -11,17 +18,13 @@ class PostsPage extends Component {
 
                     <h1 className="my-4">Latest Posts</h1>
 
-                    <PostComponent />
-                    <PostComponent />
-                    <PostComponent />
+                    <PostComponent/>
+                    <PostComponent/>
 
-                    <ul className="pagination justify-content-center mb-4">
-                        <li className="page-item">
-                            <Link className="page-link" to="#">&larr; Older</Link>
-                        </li>
-                        <li className="page-item disabled">
-                            <Link className="page-link" to="#">Newer &rarr;</Link>
-                        </li>
+                    <ul className="pagination justify-content-center mb-4 mt-5">
+                        <li className="page-item"><a className="page-link" href="#">1</a></li>
+                        <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                        <li className="page-item"><a className="page-link" href="#">3</a></li>
                     </ul>
 
                 </div>
@@ -33,34 +36,21 @@ class PostsPage extends Component {
                     <div className="card mt-4">
                         <h5 className="card-header">Categories</h5>
                         <div className="card-body">
-                            <div className="row">
-                                <div className="col-lg-6">
-                                    <ul className="list-unstyled mb-0">
-                                        <li>
-                                            <a href="#">Web Design</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">HTML</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Freebies</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div className="col-lg-6">
-                                    <ul className="list-unstyled mb-0">
-                                        <li>
-                                            <a href="#">JavaScript</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">CSS</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Tutorials</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                            {
+                                fetchRequest ? (<Spinner marginTop='5%' fontSize='20px' />) : (
+                                    <div className="row">
+                                        {
+                                            categories.map(category => (
+                                                <div className="col-md-6 mb-2">
+                                                    <li className="list-unstyled text-center">
+                                                        <Link to={`category/${category.id}`}>{category.name}</Link>
+                                                    </li>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
                         </div>
                     </div>
 
@@ -80,5 +70,16 @@ class PostsPage extends Component {
     }
 }
 
-const Posts = PostsPage;
+const mapStateToProps = ({category}) =>{
+    return {
+        fetchRequest: category.attempting,
+        categories: category.categories
+    }
+}
+const mapDispatchToProps = dispatch =>{
+    return {
+        retrieveCategories: () => dispatch(retrieveCategories())
+    }
+}
+const Posts = connect(mapStateToProps, mapDispatchToProps)(PostsPage);
 export {Posts};

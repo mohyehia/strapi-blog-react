@@ -2,7 +2,7 @@ import {RETRIEVE_CATEGORIES_REQUEST, RETRIEVE_CATEGORIES_SUCCESS, RETRIEVE_CATEG
 
 const INITIAL_STATE = {
     attempting: false,
-    categories: null,
+    categories: [],
     error: ''
 }
 

@@ -71,10 +71,10 @@ class AddPostPage extends Component {
     }
 
     render() {
-        const {categories, attempting} = this.props;
-        if (attempting) {
+        const {categories, fetchRequest} = this.props;
+        if (fetchRequest) {
             return (
-                <Spinner />
+                <Spinner/>
             );
         }
         return (

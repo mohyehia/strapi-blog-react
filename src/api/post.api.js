@@ -7,3 +7,7 @@ export const addPostApi = (values) =>{
 export const retrieveUserPostsApi = () =>{
     return axios.get('/posts');
 }
+
+export const retrievePostApi = (slug) =>{
+    return axios.get(`/posts/${slug}`);
+}

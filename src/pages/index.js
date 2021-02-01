@@ -5,3 +5,4 @@ export * from './PostsPage';
 export * from './SignupPage';
 export * from './ProfilePage';
 export * from './AddPostPage';
+export * from './ViewPostPage';

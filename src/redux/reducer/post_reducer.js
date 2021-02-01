@@ -2,7 +2,7 @@ import {
     ADD_POST_FAILED,
     ADD_POST_REQUEST,
     ADD_POST_SUCCESS,
-    RESET_CREATED_FLAG, RETRIEVE_POSTS_FAILED,
+    RESET_CREATED_FLAG, RETRIEVE_POST_FAILED, RETRIEVE_POST_REQUEST, RETRIEVE_POST_SUCCESS, RETRIEVE_POSTS_FAILED,
     RETRIEVE_POSTS_REQUEST, RETRIEVE_POSTS_SUCCESS
 } from "../action/types";
 
@@ -52,6 +52,23 @@ const postReducer = (state = INITIAL_STATE, action) =>{
             return {
                 ...state,
                 fetchingPosts: false,
+                error: action.payload
+            }
+        case RETRIEVE_POST_REQUEST:
+            return {
+                ...state,
+                attempting: true
+            }
+        case RETRIEVE_POST_SUCCESS:
+            return {
+                ...state,
+                attempting: false,
+                post: action.payload
+            }
+        case RETRIEVE_POST_FAILED:
+            return {
+                ...state,
+                attempting: false,
                 error: action.payload
             }
         case RESET_CREATED_FLAG:

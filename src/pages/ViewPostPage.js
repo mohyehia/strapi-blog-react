@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {retrieveCategories} from "../redux/action/category_action";
 import {connect} from "react-redux";
-import {Spinner} from "../components";
+import {AddComment, Spinner} from "../components";
 import {Link} from "react-router-dom";
 import {retrievePost} from "../redux/action/post_action";
 import moment from "moment";
@@ -17,40 +17,31 @@ class ViewPostPage extends Component {
         const {categories, fetchRequest, post, fetchingPost} = this.props;
         return (
             <div className="row">
-                 <div className="col-lg-8">
+                <div className="col-lg-8">
                     {
-                        fetchingPost ? (<Spinner />) : (
+                        fetchingPost ? (<Spinner/>) : (
                             <React.Fragment>
                                 <h1 className="mt-4">{post && post.title}</h1>
                                 <p className="lead">
-                                    by {post && post.user && <Link to={`profile/${post.user._id}`}>{post.user.firstName + ' ' + post.user.lastName}</Link>}
+                                    by {post && post.user && <Link
+                                    to={`profile/${post.user._id}`}>{post.user.firstName + ' ' + post.user.lastName}</Link>}
                                 </p>
                                 <hr/>
                                 <p>Posted on {post && moment(post.createdAt).format('YYYY-MM-DD hh:mm a')}</p>
                                 <hr/>
-                                {post && <img className="img-fluid rounded" src={`${process.env.REACT_APP_API_ENDPOINT + '/' + post.photo}`} alt=""/>}
+                                {post && <img className="img-fluid rounded"
+                                              src={`${process.env.REACT_APP_API_ENDPOINT + '/' + post.photo}`} alt=""/>}
 
                                 <hr/>
 
                                 <p className="lead">{post && post.content}</p>
-
                                 <hr/>
-
-                                <div className="card my-4">
-                                    <h5 className="card-header">Leave a Comment:</h5>
-                                    <div className="card-body">
-                                        <form>
-                                            <div className="form-group">
-                                                <textarea className="form-control" rows="3"/>
-                                            </div>
-                                            <button type="submit" className="btn btn-primary">Submit</button>
-                                        </form>
-                                    </div>
-                                </div>
+                                <AddComment slug={this.props.match.params.slug} />
                                 {
                                     post && post.comments && post.comments.map(comment => (
                                         <div className="media mb-5">
-                                            <img className="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt=""/>
+                                            <img className="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50"
+                                                 alt=""/>
                                             <div className="media-body">
                                                 <h5 className="mt-0">{comment.user.firstName + ' ' + comment.user.lastName}</h5>
                                                 {comment.content}
@@ -61,7 +52,7 @@ class ViewPostPage extends Component {
                             </React.Fragment>
                         )
                     }
-                 </div>
+                </div>
 
                 <div className="col-md-4">
 

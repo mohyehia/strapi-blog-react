@@ -1,76 +1,90 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+import {retrieveCategories} from "../redux/action/category_action";
+import {retrieveAllPosts} from "../redux/action/post_action";
+import {connect} from "react-redux";
+import {Spinner} from "../components";
+import PostComponent from "../components/PostComponent";
 
 class HomePage extends Component {
+    componentDidMount() {
+        this.props.retrieveCategories();
+        this.props.retrieveAllPosts();
+    }
+
     render() {
+        const {categories, fetchRequest, userPosts, fetchingPosts} = this.props;
         return (
-            <Fragment>
-                <div className="row align-items-center my-5">
-                    <div className="col-lg-7">
-                        <img className="img-fluid rounded mb-4 mb-lg-0" src="http://placehold.it/900x400" alt=""/>
-                    </div>
-                    <div className="col-lg-5">
-                        <h1 className="font-weight-light">Strapi Blog</h1>
-                        <p>This is a template that is great for small businesses. It doesn't have too much fancy flare
-                            to it, but it makes a great use of the standard Bootstrap core components. Feel free to use
-                            this template for any project you want!</p>
-                        <Link className="btn btn-info" to="/login">Get Started!</Link>
-                    </div>
+            <div className="row">
+
+                <div className="col-md-9">
+
+                    <h1 className="my-4">Latest Posts</h1>
+
+                    {
+                        fetchingPosts ? (<Spinner/>) : (
+                            <React.Fragment>
+                                {
+                                    userPosts && userPosts.map(post => (
+                                        <PostComponent key={post.id} post={post}/>
+                                    ))
+                                }
+                                <ul className="pagination justify-content-center mb-4 mt-5">
+                                    <li className="page-item"><a className="page-link" href="#">1</a></li>
+                                    <li className="page-item active"><a className="page-link" href="#">2</a></li>
+                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
+                                </ul>
+                            </React.Fragment>
+                        )
+                    }
+
                 </div>
 
-                <div className="row mb-4">
-                    <div className="container">
-                        <h3>Latest Posts</h3>
-                        <hr/>
+                <div className="col-md-3">
+
+                    <div className="card mt-4">
+                        <h5 className="card-header">Categories</h5>
+                        <div className="card-body">
+                            {
+                                fetchRequest ? (<Spinner marginTop='5%' fontSize='20px'/>) : (
+                                    <div className="row">
+                                        {
+                                            categories.map(category => (
+                                                <div className="col-md-12 mb-2">
+                                                    <li className="list-unstyled">
+                                                        <Link to={`category/${category.id}`}>{category.name}</Link>
+                                                    </li>
+                                                    <hr className="mb-2 mt-0"/>
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
+
                 </div>
 
+            </div>
 
-                <div className="row">
-                    <div className="col-md-4 mb-5">
-                        <div className="card h-100">
-                            <div className="card-body">
-                                <h2 className="card-title">Post One</h2>
-                                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem
-                                    magni
-                                    quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                            </div>
-                            <div className="card-footer">
-                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-5">
-                        <div className="card h-100">
-                            <div className="card-body">
-                                <h2 className="card-title">Post Two</h2>
-                                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod
-                                    tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel,
-                                    non in id dolore voluptates quos eligendi labore.</p>
-                            </div>
-                            <div className="card-footer">
-                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mb-5">
-                        <div className="card h-100">
-                            <div className="card-body">
-                                <h2 className="card-title">Post Three</h2>
-                                <p className="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem
-                                    magni
-                                    quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
-                            </div>
-                            <div className="card-footer">
-                                <Link to="#" className="btn btn-info btn-sm">More Info</Link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Fragment>
         );
     }
 }
 
-const Home = HomePage;
+const mapStateToProps = ({category, post}) => {
+    return {
+        fetchRequest: category.attempting,
+        categories: category.categories,
+        fetchingPosts: post.fetchingPosts,
+        userPosts: post.posts
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        retrieveCategories: () => dispatch(retrieveCategories()),
+        retrieveAllPosts: () => dispatch(retrieveAllPosts())
+    }
+}
+const Home = connect(mapStateToProps, mapDispatchToProps)(HomePage);
 export {Home};

@@ -20,8 +20,12 @@ class PostComponent extends Component {
                     <Link to={`/posts/${post.slug}`} className="btn btn-info">Read More &rarr;</Link>
                 </div>
                 <div className="card-footer text-muted">
-                    Posted on {moment(post.createdAt).format('DD-MM-YYYY hh:mm a')} by {' '}
-                    <Link to="#">Start Bootstrap</Link>
+                    Posted on {moment(post.createdAt).format('DD-MM-YYYY hh:mm a')}
+                    {
+                        post.user && (
+                            <React.Fragment>by {' '} <Link to="#">{post.user.firstName + ' ' + post.user.lastName}</Link></React.Fragment>
+                        )
+                    }
                 </div>
             </div>
         );

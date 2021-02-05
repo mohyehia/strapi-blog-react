@@ -5,7 +5,7 @@ import {
     RETRIEVE_POSTS_FAILED,
     RETRIEVE_POSTS_REQUEST, RETRIEVE_POSTS_SUCCESS
 } from "./types";
-import {addPostApi, retrievePostApi, retrieveUserPostsApi} from "../../api/post.api";
+import {addPostApi, retrieveAllPostsApi, retrievePostApi, retrieveUserPostsApi} from "../../api/post.api";
 
 export const addPost = (values) =>{
     return async function(dispatch) {
@@ -74,6 +74,28 @@ export const retrievePost = (slug) =>{
                 console.error('error =>' + error);
                 dispatch({
                     type: RETRIEVE_POST_FAILED,
+                    payload: error.response.data.error
+                })
+            });
+    }
+}
+
+export const retrieveAllPosts = () =>{
+    return async function (dispatch){
+        dispatch({
+            type: RETRIEVE_POSTS_REQUEST
+        });
+        await retrieveAllPostsApi()
+            .then(response =>{
+                dispatch({
+                    type: RETRIEVE_POSTS_SUCCESS,
+                    payload: response.data.posts
+                })
+            })
+            .catch(error =>{
+                console.error('error =>' + error);
+                dispatch({
+                    type: RETRIEVE_POSTS_FAILED,
                     payload: error.response.data.error
                 })
             });

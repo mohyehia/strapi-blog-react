@@ -8,6 +8,10 @@ export const retrieveUserPostsApi = () =>{
     return axios.get('/posts');
 }
 
+export const retrieveAllPostsApi = () =>{
+    return axios.get('/posts/all');
+}
+
 export const retrievePostApi = (slug) =>{
     return axios.get(`/posts/${slug}`);
 }

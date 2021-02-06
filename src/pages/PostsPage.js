@@ -2,16 +2,34 @@ import React, {Component} from 'react';
 import {Link} from "react-router-dom";
 import PostComponent from "../components/PostComponent";
 import {connect} from "react-redux";
-import {Spinner} from "../components";
+import {PaginationComponent, Spinner} from "../components";
 import {retrieveUserPosts} from "../redux/action/post_action";
 
 class PostsPage extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            currentPage: 1,
+            postsPerPage: 3
+        }
+    }
+
     componentDidMount() {
         this.props.retrievePosts();
     }
 
+    paginate = (pageNumber) => {
+        this.setState({
+            currentPage: pageNumber,
+            postsPerPage: 3
+        })
+    }
+
     render() {
         const {userPosts, fetchingPosts} = this.props;
+        const indexOfLastPost = this.state.currentPage * this.state.postsPerPage;
+        const indexOfFirstPost = indexOfLastPost - this.state.postsPerPage;
+        const currentPosts = userPosts.slice(indexOfFirstPost, indexOfLastPost);
         return (
             <div className="row">
 
@@ -30,15 +48,11 @@ class PostsPage extends Component {
                         fetchingPosts ? (<Spinner/>) : (
                             <React.Fragment>
                                 {
-                                    userPosts && userPosts.map(post => (
+                                    currentPosts && currentPosts.map(post => (
                                         <PostComponent key={post.id} post={post}/>
                                     ))
                                 }
-                                <ul className="pagination justify-content-center mb-4 mt-5">
-                                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item active"><a className="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                </ul>
+                                <PaginationComponent postsPerPage={this.state.postsPerPage} totalPosts={userPosts.length} paginate={this.paginate} />
                             </React.Fragment>
                         )
                     }
